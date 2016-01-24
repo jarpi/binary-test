@@ -1,0 +1,74 @@
+<form action="#">
+    <input type='file' id='files' name='fileUpload'> 
+    <input type='button' onclick='sendBlob()' value='Send blob'>
+    <input type='button' onclick='handleInput(sendByteArray, this)' value='Send byte array'>
+</form>
+
+<script type="text/javascript">
+    function sendBlob() {
+       var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/upload", true);
+        xhr.setRequestHeader('Content-Type', 'application/octet-stream'); 
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState==4 && xhr.status==200){
+                // get response from server
+                console.dir(xhr.responseText); 
+            }
+        }
+        var text = 'hello áéóö world'; 
+        console.dir(text.length); 
+        var uint8 = new Uint8Array(text.length);
+        for (var i = 0; i <  uint8.length; i++){
+            uint8[i] = text.charCodeAt(i);
+            // console.log(uint8[i]); 
+            console.log(text.charCodeAt(i)); 
+            console.log('------------------'); 
+        }
+        console.log(uint8.length); 
+        var b = new Blob([uint8], {type: 'text/plain;charset=UTF-8'}); 
+        console.dir(b); 
+        xhr.send(b); 
+       }
+    
+    function sendByteArray(file) {
+        var reader = new FileReader();
+        var jpgArr; 
+        reader.onload = function (e) {
+            console.log(e);
+            jpgArr = e.target.result;
+            console.dir(jpgArr); 
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/upload", true);
+        xhr.setRequestHeader('Content-Type', 'application/octet-stream'); 
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState==4 && xhr.status==200){
+                // get response from server
+                console.dir(xhr.responseText); 
+            }
+        }
+        xhr.send(jpgArr);       
+
+        };
+        reader.onerror = function (e) {
+            console.error(e);
+        };
+        reader.readAsArrayBuffer(file); 
+    }
+    
+    function handleInput(cb) {
+        var input = document.getElementById('files');  
+        console.dir(input); 
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imageThumb').attr('src', e.target.result);
+            }   
+                console.dir(input.files[0]); 
+                cb(input.files[0]);
+        }
+
+    } 
+
+</script>
+

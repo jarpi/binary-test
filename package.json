@@ -1,0 +1,18 @@
+{
+  "name": "binary-express",
+  "version": "0.0.1",
+  "description": "A binary file upload handler in Node.JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jarpi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "busboy": "^0.2.12",
+    "express": "^4.13.4",
+    "formidable": "^1.0.17",
+    "fs-extra": "^0.26.4"
+  }
+}
